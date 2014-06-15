@@ -9,15 +9,18 @@ var isFunction = function(obj) {
   return obj && Object.prototype.toString.call(obj) === "[object Function]";
 };
 
-var getPrototypeChain = function( obj ) {
-  var chain;
-  chain = [];
+var getPrototypeChainOf = function( obj ) {
+  var chain = [];
+  
   if ( isFunction(obj) ) {
     obj = obj.prototype;
+  } else {
+    obj = obj.constructor.prototype;
   }
-  chain.push( obj );
-  while ( obj = Object.getPrototypeOf( obj ) ) {
+
+  do {
     chain.push( obj );
-  }
+  } while ( obj = Object.getPrototypeOf( obj ) )
+
   return chain;
 };
